@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   test:
-    
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -28,7 +26,6 @@ jobs:
         with:
           name: test-results
           path: junit/test-results.xml
-
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -51,3 +48,19 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-lab:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: ${{ secrets.DOCKERHUB_USERNAME }}/devops-labs:latest
+          containerAppName: devops-app
+          containerAppEnvironment: devops-app-env
+          resourceGroup: devsecops-lab
+          location: australiaeast
+          targetPort: 5000
