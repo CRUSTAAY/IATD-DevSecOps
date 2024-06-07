@@ -1,1 +1,13 @@
 .idea
+__pycache__/app.cpython-310.pyc
+__pycache__/config.cpython-310.pyc
+api_views/__pycache__/__init__.cpython-310.pyc
+api_views/__pycache__/books.cpython-310.pyc
+api_views/__pycache__/json_schemas.cpython-310.pyc
+api_views/__pycache__/main.cpython-310.pyc
+api_views/__pycache__/users.cpython-310.pyc
+database/database.db
+models/__pycache__/__init__.cpython-310.pyc
+models/__pycache__/books_model.cpython-310.pyc
+models/__pycache__/user_model.cpython-310.pyc
+database/database.db
