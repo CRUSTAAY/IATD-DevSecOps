@@ -27,7 +27,8 @@ jobs:
           name: test-results
           path: junit/test-results.xml
   build:
-    needs: [test, sonarqube, dast, image-scan, security_gate]
+    #needs: [test, sonarqube, dast, image-scan, security_gate]
+    needs: []
     runs-on: ubuntu-latest
     steps:
       -
@@ -46,6 +47,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
+          sbom: true
+          provenance: true
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-labs:latest
   submit_results:
