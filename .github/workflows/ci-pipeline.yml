@@ -65,7 +65,7 @@ jobs:
         run: |
           cosign sign --yes ${IMAGE}
   submit_results:
-    needs: [test, image-scan, dast, sonarqube]
+    #needs: [test, image-scan, dast, sonarqube]
     if: true
     runs-on: ubuntu-latest
     steps:
@@ -109,6 +109,8 @@ jobs:
         echo "Image report upload: $IMAGE_RESPONSE"
         WEEK5_RESPONSE=$(curl -X POST  -H "Authorization: Bearer $AZURE_ACCESS_TOKEN"  -d "$IMAGE" https://devsecops-ver.azurewebsites.net/api/week5-report)
         echo "Week5 report upload: $WEEK5_RESPONSE"
+        DEBUG=$(ls @$GITHUB_WORKSPACE/threat-model/)
+        echo "$DEBUG"
         MODEL_RESPONSE=$(curl -X POST -H "Authorization: Bearer $AZURE_ACCESS_TOKEN" --data-binary @$GITHUB_WORKSPACE/threat-model/ci-pipeline.json https://devsecops-ver.azurewebsites.net/api/week6-report)
         echo "Model report upload: $MODEL_RESPONSE"
   sonarqube:
