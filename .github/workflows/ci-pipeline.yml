@@ -20,6 +20,8 @@ jobs:
         run: |
           pip install pytest pytest-cov
           pytest api_tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+          DEBUG=$(ls @$GITHUB_WORKSPACE/)
+          echo "$DEBUG"
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         id: artifact-upload-step
@@ -109,8 +111,6 @@ jobs:
         echo "Image report upload: $IMAGE_RESPONSE"
         WEEK5_RESPONSE=$(curl -X POST  -H "Authorization: Bearer $AZURE_ACCESS_TOKEN"  -d "$IMAGE" https://devsecops-ver.azurewebsites.net/api/week5-report)
         echo "Week5 report upload: $WEEK5_RESPONSE"
-        DEBUG=$(ls @$GITHUB_WORKSPACE/threat-model/)
-        echo "$DEBUG"
         MODEL_RESPONSE=$(curl -X POST -H "Authorization: Bearer $AZURE_ACCESS_TOKEN" --data-binary @$GITHUB_WORKSPACE/threat-model/ci-pipeline.json https://devsecops-ver.azurewebsites.net/api/week6-report)
         echo "Model report upload: $MODEL_RESPONSE"
   sonarqube:
